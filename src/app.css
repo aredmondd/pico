@@ -1,1 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import 'tailwindcss';
+
+@theme {
+	--color-gunmetal: #2d3142;
+	--color-gray: #4f5d75;
+	--color-silver: #bfc0c0;
+	--color-white: #ffffff;
+
+	--font-serif: 'DM Serif Text', serif;
+	--font-sans: 'Inter', sans-serif;
+}
