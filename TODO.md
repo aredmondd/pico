@@ -8,17 +8,17 @@
 
 #### transactions page
 
-- [ ] make the m/y selectors actually sort
-- [ ] make the search input actually search
 - [ ] create modal for adding a transaction
 - [ ] connect modal to supabase so that it persists data
 - [ ] add the transaction to a list on the frontend to make UX better
 - [ ] make columns sortable
-- [ ] filters for category
-- [ ] filter for subcategory
+- [ ] convert filters to aside like nike filters
 - [x] make the category id into category name
 - [x] make the subcategory id into subcategory name
-- [ ] convert filters to aside like nike filters
+- [x] make the search input actually search
+- [x] filters for category
+- [x] filter for subcategory
+- [x] make the m/y selectors actually sort
 
 #### dashboard page
 
