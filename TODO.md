@@ -22,4 +22,6 @@
 
 #### dashboard page
 
-- [ ] uhhhhh
+- [ ] display total spent vs total made
+- [ ] display each category with amounts
+- [ ] display each subcategory with amounts

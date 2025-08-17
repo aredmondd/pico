@@ -3,6 +3,8 @@
 
 	let { data } = $props();
 
+	const INCOME_ID = 10;
+
 	const transactions = $state(data.transactions);
 	const categories = $state(data.categories);
 	const subcategories = $state(data.subcategories);
@@ -49,7 +51,7 @@
 	let selectedMonth = $state('00');
 	let selectedYear = $state('00');
 	let selectedCategory = $state(0);
-	let selectedSubCategory = $state(0);
+	let selectedSubCategory = $state(2);
 
 	function getFilteredTransactions(): Transaction[] {
 		const query = searchQuery.toLowerCase().trim();
@@ -68,6 +70,15 @@
 			);
 		});
 	}
+
+	// sort functionality
+
+	// sum of transactions
+	let sumOfTransactions = $derived(
+		getFilteredTransactions()
+			.filter((t) => t.category_id !== INCOME_ID)
+			.reduce((sum, t) => sum + t.amount, 0)
+	);
 </script>
 
 {#snippet column(colName: string)}
@@ -162,6 +173,15 @@
 			{/each}
 			{#if getFilteredTransactions().length === 0}
 				{@render row('no results found...')}
+			{:else}
+				<!-- i'm aware this is so ghetto i'm sorry you have to see this... -->
+				<tr class="border-b border-silver/10 font-bold text-silver/85">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td class="px-6 py-4">TOTAL:</td>
+					<td class="px-6 py-4">{`$${Math.round(sumOfTransactions * 100) / 100}`}</td>
+				</tr>
 			{/if}
 		</tbody>
 	</table>
