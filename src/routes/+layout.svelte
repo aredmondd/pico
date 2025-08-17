@@ -9,7 +9,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="mx-6 mt-3 flex items-center justify-between">
+<div class="flex items-center justify-between">
 	<div>
 		<!-- <h1
 			class="bg-[linear-gradient(90deg,rgba(170,140,40,1)_0%,rgba(212,175,55,1)_35%,rgba(255,240,120,1)_50%,rgba(212,175,55,1)_65%,rgba(170,140,40,1)_100%)] bg-clip-text font-serif text-7xl text-transparent italic"
