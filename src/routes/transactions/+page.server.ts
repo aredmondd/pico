@@ -10,8 +10,6 @@ export const load: PageServerLoad = async () => {
 		return { transactions: [] };
 	}
 
-	console.log(data);
-
 	return {
 		transactions: data ?? []
 	};

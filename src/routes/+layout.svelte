@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../app.css';
+	import icon from '$lib/favicon.ico';
 
 	let { children } = $props();
 </script>
@@ -24,5 +25,9 @@
 		<a href="/transactions">transactions</a>
 	</div>
 </div>
+
+<svelte:head>
+	<link rel="icon" href={icon} />
+</svelte:head>
 
 {@render children?.()}

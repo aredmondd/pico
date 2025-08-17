@@ -1,7 +1,5 @@
 <script lang="ts">
 	let { data } = $props();
-
-	console.log(data);
 </script>
 
 {#snippet column(colName: string)}
