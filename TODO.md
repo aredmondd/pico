@@ -16,6 +16,9 @@
 - [ ] make columns sortable
 - [ ] filters for category
 - [ ] filter for subcategory
+- [x] make the category id into category name
+- [x] make the subcategory id into subcategory name
+- [ ] convert filters to aside like nike filters
 
 #### dashboard page
 

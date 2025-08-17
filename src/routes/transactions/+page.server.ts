@@ -1,16 +1,28 @@
 import type { PageServerLoad } from './$types';
 import { supabase } from '$lib/supabaseClient';
-import type { Transaction } from '$lib/database';
+import type { Category, SubCategory, Transaction } from '$lib/database';
 
 export const load: PageServerLoad = async () => {
-	const { data, error } = await supabase.from('transactions').select<'transactions', Transaction>();
+	const transactionsQuery = supabase
+		.from('transactions')
+		.select()
+		.order('date', { ascending: false });
+	const categoriesQuery = supabase.from('categories').select('id, name');
+	const subcategoriesQuery = supabase.from('subcategories').select('id, name, category_id');
 
-	if (error) {
-		console.error('Error loading data:', error.message);
-		return { transactions: [] };
-	}
+	const [transactionsResult, categoriesResult, subcategoriesResult] = await Promise.all([
+		transactionsQuery,
+		categoriesQuery,
+		subcategoriesQuery
+	]);
+
+	const transactions: Transaction[] = transactionsResult.data || [];
+	const categories: Category[] = categoriesResult.data || [];
+	const subcategories: SubCategory[] = subcategoriesResult.data || [];
 
 	return {
-		transactions: data ?? []
+		transactions,
+		categories,
+		subcategories
 	};
 };

@@ -1,7 +1,11 @@
 <script lang="ts">
+	import { isAuthSessionMissingError } from '@supabase/supabase-js';
+
 	let { data } = $props();
 
 	const transactions = $state(data.transactions);
+	const categories = $state(data.categories);
+	const subcategories = $state(data.subcategories);
 
 	// have a static list of all months, and display 'no rows found'
 	//  if transactions with specified month do not exist within this data
@@ -28,6 +32,16 @@
 	}
 
 	const years = Array.from(yearSet).sort().reverse();
+
+	function getCategoryName(id: number): string {
+		const category = categories.find((category) => category.id === id);
+		return category ? category.name : '';
+	}
+
+	function getSubCategoriesName(id: number): string {
+		const subcategory = subcategories.find((subcategory) => subcategory.id === id);
+		return subcategory ? subcategory.name : '';
+	}
 </script>
 
 {#snippet column(colName: string)}
@@ -63,6 +77,18 @@
 					<option value={year}>{year}</option>
 				{/each}
 			</select>
+			<select name="category" id="category-select" class="border border-silver/10 px-2">
+				<option value="0">all categories</option>
+				{#each categories as category}
+					<option value={category.id}>{category.name}</option>
+				{/each}
+			</select>
+			<select name="subcategory" id="subcategory-select" class="border border-silver/10 px-2">
+				<option value="0">all subcategories</option>
+				{#each subcategories as subcategory}
+					<option value={subcategory.id}>{subcategory.name}</option>
+				{/each}
+			</select>
 		</div>
 
 		<button class="border border-silver/10 bg-gray/10 px-2 text-silver">add a transaction</button>
@@ -82,8 +108,8 @@
 				<tr>
 					{@render row(transaction.date)}
 					{@render row(transaction.description, true)}
-					{@render row(transaction.category_id)}
-					{@render row(transaction.subcategory_id)}
+					{@render row(getCategoryName(transaction.category_id))}
+					{@render row(getSubCategoriesName(transaction.subcategory_id))}
 					{@render row('$' + transaction.amount)}
 				</tr>
 			{/each}
