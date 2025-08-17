@@ -16,16 +16,18 @@
 		>
 			pico
 		</h1> -->
-		<h1
-			class="bg-[linear-gradient(90deg,rgba(120,120,120,1)_0%,#BFC0C0_35%,rgba(230,230,230,1)_50%,#BFC0C0_65%,rgba(120,120,120,1)_100%)] bg-clip-text font-serif text-7xl text-transparent italic"
+		<a
+			href="/"
+			class="bg-[linear-gradient(90deg,rgba(120,120,120,1)_0%,#BFC0C0_35%,rgba(230,230,230,1)_50%,#BFC0C0_65%,rgba(120,120,120,1)_100%)] bg-clip-text font-serif text-6xl text-transparent italic"
 		>
 			pico
-		</h1>
+		</a>
 	</div>
 
-	<div class="flex gap-6 text-xl">
+	<div class="flex gap-6 text-lg">
 		<a href="/dashboard">dashboard</a>
 		<a href="/transactions">transactions</a>
 	</div>
 </div>
+
 {@render children?.()}
