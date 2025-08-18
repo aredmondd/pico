@@ -87,6 +87,7 @@
 		isOpen = false;
 		inputAmount = '$0.00';
 		inputAmountArray = [];
+		amountFieldKey++;
 	}
 
 	function handleOpen() {
@@ -115,6 +116,7 @@
 
 	// amount stuff
 	let inputAmountArray: string[] = $state([]);
+	let amountFieldKey: number = $state(0);
 
 	function handleAmountInput(event: Event) {
 		let formattedValue: string = '';
@@ -309,15 +311,17 @@
 									{/each}
 								</select>
 							{/if}
-							<input
-								id="amountInput"
-								class="border px-2 py-1"
-								name="amount"
-								placeholder="amount"
-								bind:value={inputAmount}
-								oninput={handleAmountInput}
-								required
-							/>
+							{#key amountFieldKey}
+								<input
+									id="amountInput"
+									class="border px-2 py-1"
+									name="amount"
+									placeholder="amount"
+									bind:value={inputAmount}
+									oninput={handleAmountInput}
+									required
+								/>
+							{/key}
 						</div>
 						<button class="bg-gunmetal px-2 py-1 text-silver" onclick={handleSubmit}>add</button>
 					</div>
