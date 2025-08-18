@@ -85,6 +85,8 @@
 
 	function handleClose() {
 		isOpen = false;
+		inputAmount = '$0.00';
+		inputAmountArray = [];
 	}
 
 	function handleOpen() {
@@ -96,7 +98,7 @@
 	}
 
 	let inputDate = $state(null);
-	let inputAmount = $state(null);
+	let inputAmount = $state('$0.00');
 	let inputDescription = $state(null);
 	let selectedCategoryId = $state(null);
 	let selectedSubCategoryId = $state(null);
@@ -110,6 +112,45 @@
 			selectedSubCategoryId = null;
 		}
 	});
+
+	// amount stuff
+	let inputAmountArray: string[] = $state([]);
+
+	function handleAmountInput(event: Event) {
+		let formattedValue: string = '';
+
+		if (event.inputType === 'deleteContentBackward') {
+			if (inputAmountArray.length <= 1) {
+				formattedValue = '$0.00';
+				document.getElementById('amountInput').value = formattedValue;
+				return;
+			} else {
+				inputAmountArray.pop();
+			}
+		} else {
+			inputAmountArray.push(inputAmount.substring(inputAmount.length - 1, inputAmount.length));
+		}
+
+		if (inputAmountArray.length == 1) {
+			formattedValue = `$0.0${inputAmountArray[inputAmountArray.length - 1]}`;
+		} else if (inputAmountArray.length == 2) {
+			formattedValue = `$0.${inputAmountArray[inputAmountArray.length - 2]}${inputAmountArray[inputAmountArray.length - 1]}`;
+		} else if (inputAmountArray.length == 3) {
+			formattedValue = `$${inputAmountArray[inputAmountArray.length - 3]}.${inputAmountArray[inputAmountArray.length - 2]}${inputAmountArray[inputAmountArray.length - 1]}`;
+		}
+		// anything larger than $9.99
+		else {
+			formattedValue += '$';
+			for (let i = 0; i < inputAmountArray.length; i++) {
+				if (i === inputAmountArray.length - 2) {
+					formattedValue += '.';
+				}
+				formattedValue += inputAmountArray[i];
+			}
+		}
+		// update the value to be the formatted string
+		document.getElementById('amountInput').value = formattedValue;
+	}
 </script>
 
 {#snippet column(colName: string)}
@@ -269,12 +310,12 @@
 								</select>
 							{/if}
 							<input
+								id="amountInput"
 								class="border px-2 py-1"
-								type="number"
-								step="any"
 								name="amount"
 								placeholder="amount"
 								bind:value={inputAmount}
+								oninput={handleAmountInput}
 								required
 							/>
 						</div>
