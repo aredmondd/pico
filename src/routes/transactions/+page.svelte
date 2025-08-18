@@ -51,7 +51,7 @@
 	let selectedMonth = $state('00');
 	let selectedYear = $state('00');
 	let selectedCategory = $state(0);
-	let selectedSubCategory = $state(2);
+	let selectedSubCategory = $state(0);
 
 	function getFilteredTransactions(): Transaction[] {
 		const query = searchQuery.toLowerCase().trim();
@@ -71,7 +71,7 @@
 		});
 	}
 
-	// sort functionality
+	// column sort functionality
 
 	// sum of transactions
 	let sumOfTransactions = $derived(
@@ -79,6 +79,37 @@
 			.filter((t) => t.category_id !== INCOME_ID)
 			.reduce((sum, t) => sum + t.amount, 0)
 	);
+
+	// modal & form stuff
+	let isOpen = $state(true);
+
+	function handleClose() {
+		isOpen = false;
+	}
+
+	function handleOpen() {
+		isOpen = true;
+	}
+
+	function handleSubmit() {
+		console.log('submitted');
+	}
+
+	let inputDate = $state(null);
+	let inputAmount = $state(null);
+	let inputDescription = $state(null);
+	let selectedCategoryId = $state(null);
+	let selectedSubCategoryId = $state(null);
+
+	let filteredSubCategories = $derived(() => {
+		return subcategories.filter((subcategory) => subcategory.category_id === selectedCategoryId);
+	});
+
+	$effect(() => {
+		if (selectedCategoryId) {
+			selectedSubCategoryId = null;
+		}
+	});
 </script>
 
 {#snippet column(colName: string)}
@@ -149,7 +180,10 @@
 			</select>
 		</div>
 
-		<button class="border border-silver/10 bg-gray/10 px-2 text-3xl text-silver">+</button>
+		<button
+			class="border border-silver/10 bg-gray/10 px-2 text-3xl text-silver"
+			onclick={handleOpen}>+</button
+		>
 	</div>
 	<table class="w-full border-1 border-silver/10 text-left text-white">
 		<thead class="border-b-1 border-silver/10 bg-gray/10">
@@ -186,3 +220,68 @@
 		</tbody>
 	</table>
 </div>
+
+{#if isOpen}
+	<div role="dialog" aria-modal="true" class="relative z-10">
+		<div aria-hidden="true" class="fixed inset-0 bg-gray/75"></div>
+
+		<div class="overflow y-auto fixed inset-0 z-10 w-screen">
+			<div class="flex min-h-full items-center justify-center p-4">
+				<div class="relative w-full max-w-lg transform overflow-hidden bg-silver shadow-xl">
+					<div class="mx-12 px-4 py-12 text-gunmetal">
+						<button
+							class="absolute top-1 right-1 px-2 py-1 text-2xl font-semibold text-gunmetal"
+							onclick={handleClose}>X</button
+						>
+						<h1 class="text-3xl">add a transaction</h1>
+						<div class="my-6 flex flex-col gap-2">
+							<input
+								class="border px-2 py-1"
+								type="date"
+								name="date"
+								required
+								bind:value={inputDate}
+							/>
+							<input
+								class="border px-2 py-1"
+								type="text"
+								name="description"
+								placeholder="description"
+								bind:value={inputDescription}
+								required
+							/>
+							<select class="border px-2 py-1" required bind:value={selectedCategoryId}>
+								<option value={null}>select a category...</option>
+								{#each categories as category}
+									<option value={category.id}>{category.name}</option>
+								{/each}
+							</select>
+							{#if !selectedCategoryId}
+								<select class="border bg-gunmetal/15 px-2 py-1 text-gunmetal/50" disabled>
+									<option value="">select a subcategory...</option>
+								</select>
+							{:else}
+								<select class="border px-2 py-1" bind:value={selectedSubCategoryId} required>
+									<option value={null}>select a subcategory...</option>
+									{#each filteredSubCategories() as subcategory}
+										<option value={subcategory.id}>{subcategory.name}</option>
+									{/each}
+								</select>
+							{/if}
+							<input
+								class="border px-2 py-1"
+								type="number"
+								step="any"
+								name="amount"
+								placeholder="amount"
+								bind:value={inputAmount}
+								required
+							/>
+						</div>
+						<button class="bg-gunmetal px-2 py-1 text-silver" onclick={handleSubmit}>add</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{/if}
