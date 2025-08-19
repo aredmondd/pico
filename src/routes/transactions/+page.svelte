@@ -71,8 +71,6 @@
 		});
 	}
 
-	// column sort functionality
-
 	// sum of transactions
 	let sumOfTransactions = $derived(
 		getFilteredTransactions()
@@ -81,7 +79,7 @@
 	);
 
 	// modal & form stuff
-	let isOpen = $state(true);
+	let isOpen = $state(false);
 
 	function handleClose() {
 		isOpen = false;
@@ -92,10 +90,6 @@
 
 	function handleOpen() {
 		isOpen = true;
-	}
-
-	function handleSubmit() {
-		console.log('submitted');
 	}
 
 	let inputDate = $state(null);
@@ -251,7 +245,7 @@
 			{#if getFilteredTransactions().length === 0}
 				{@render row('no results found...')}
 			{:else}
-				<!-- i'm aware this is so ghetto i'm sorry you have to see this... -->
+				<!-- i'm aware this is so ghetto i'm sorry you have to see this... but it does work... -->
 				<tr class="border-b border-silver/10 font-bold text-silver/85">
 					<td></td>
 					<td></td>
@@ -271,7 +265,7 @@
 		<div class="overflow y-auto fixed inset-0 z-10 w-screen">
 			<div class="flex min-h-full items-center justify-center p-4">
 				<div class="relative w-full max-w-lg transform overflow-hidden bg-silver shadow-xl">
-					<div class="mx-12 px-4 py-12 text-gunmetal">
+					<form class="mx-12 px-4 py-12 text-gunmetal" method="POST" action="?/create">
 						<button
 							class="absolute top-1 right-1 px-2 py-1 text-2xl font-semibold text-gunmetal"
 							onclick={handleClose}>X</button
@@ -293,7 +287,12 @@
 								bind:value={inputDescription}
 								required
 							/>
-							<select class="border px-2 py-1" required bind:value={selectedCategoryId}>
+							<select
+								class="border px-2 py-1"
+								required
+								bind:value={selectedCategoryId}
+								name="categoryId"
+							>
 								<option value={null}>select a category...</option>
 								{#each categories as category}
 									<option value={category.id}>{category.name}</option>
@@ -304,7 +303,12 @@
 									<option value="">select a subcategory...</option>
 								</select>
 							{:else}
-								<select class="border px-2 py-1" bind:value={selectedSubCategoryId} required>
+								<select
+									class="border px-2 py-1"
+									bind:value={selectedSubCategoryId}
+									required
+									name="subcategoryId"
+								>
 									<option value={null}>select a subcategory...</option>
 									{#each filteredSubCategories() as subcategory}
 										<option value={subcategory.id}>{subcategory.name}</option>
@@ -323,8 +327,8 @@
 								/>
 							{/key}
 						</div>
-						<button class="bg-gunmetal px-2 py-1 text-silver" onclick={handleSubmit}>add</button>
-					</div>
+						<button class="bg-gunmetal px-2 py-1 text-silver">add</button>
+					</form>
 				</div>
 			</div>
 		</div>

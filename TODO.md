@@ -8,7 +8,6 @@
 
 #### transactions page
 
-- [ ] create modal for adding a transaction
 - [ ] connect modal to supabase so that it persists data
 - [ ] add the transaction to a list on the frontend to make UX better
 - [ ] make columns sortable
@@ -19,6 +18,7 @@
 - [x] filters for category
 - [x] filter for subcategory
 - [x] make the m/y selectors actually sort
+- [x] create modal for adding a transaction
 
 #### dashboard page
 
