@@ -74,7 +74,7 @@
 	// sum of transactions
 	let sumOfTransactions = $derived(
 		getFilteredTransactions()
-			.filter((t) => t.category_id !== INCOME_ID)
+			.filter((t) => t.category_id === INCOME_ID)
 			.reduce((sum, t) => sum + t.amount, 0)
 	);
 

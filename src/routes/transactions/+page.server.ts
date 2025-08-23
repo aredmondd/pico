@@ -8,7 +8,8 @@ export const load: PageServerLoad = async () => {
 	const transactionsQuery = supabase
 		.from('transactions')
 		.select()
-		.order('date', { ascending: false });
+		.order('date', { ascending: false })
+		.order('created_at', { ascending: false });
 	const categoriesQuery = supabase.from('categories').select('id, name');
 	const subcategoriesQuery = supabase.from('subcategories').select('id, name, category_id');
 
