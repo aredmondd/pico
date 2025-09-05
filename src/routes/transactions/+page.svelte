@@ -48,8 +48,8 @@
 
 	// search & filter functionality
 	let searchQuery = $state('');
-	let selectedMonth = $state('00');
-	let selectedYear = $state('00');
+	let selectedMonth = $state(String(new Date().getMonth() + 1).padStart(2, '0'));
+	let selectedYear = $state(String(new Date().getFullYear()));
 	let selectedCategory = $state(0);
 	let selectedSubCategory = $state(0);
 
@@ -119,6 +119,7 @@
 			if (inputAmountArray.length <= 1) {
 				formattedValue = '$0.00';
 				document.getElementById('amountInput').value = formattedValue;
+				inputAmountArray = [];
 				return;
 			} else {
 				inputAmountArray.pop();

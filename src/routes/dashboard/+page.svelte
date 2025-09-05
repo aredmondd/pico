@@ -116,20 +116,20 @@
 	</div>
 
 	<!-- Pivot table content -->
-	<div class="flex-1 border border-silver/10">
+	<div class="mb-12 flex-1 border border-silver/10">
 		<table class="w-full border-collapse">
 			<thead>
 				<tr class="bg-gray/10 text-left text-white">
 					{@render column('Category')}
-					{@render column('Category')}
-					{@render column('Category')}
+					{@render column('Subcategory')}
+					{@render column('Amount')}
 				</tr>
 			</thead>
 			<tbody>
 				{#each Object.values(sumByCategoryAndSubcategory(selectedMonth)) as cat}
 					<tr class="border-t border-silver/10 font-semibold">
 						{@render row(cat.name)}
-						{@render row('—')}
+						{@render row('')}
 						{@render row('$' + cat.total.toFixed(2), true)}
 					</tr>
 					{#each Object.values(cat.subcategories) as sub}
@@ -144,7 +144,7 @@
 				<!-- Grand total row -->
 				<tr class="border-t border-silver/10 bg-gray/20">
 					{@render row('Grand Total')}
-					{@render row('-')}
+					{@render row('')}
 					<td class="px-4 py-2">
 						<div class="flex items-center gap-1">
 							<span>{'$' + getGrandTotal(selectedMonth).toFixed(2)}</span>
